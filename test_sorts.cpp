@@ -216,7 +216,13 @@ void test_merge_sort_int()
     assert(is_sorted(v));
     merge_sort(v);
     assert(is_sorted(v));
-    v = {2, 1, 0};
+    v = {
+        2,
+        1,
+        0,
+        8,
+        3,
+        99};
     merge_sort(v);
     assert(is_sorted(v));
 }
@@ -387,8 +393,8 @@ int main()
     test_selection_sort_int();
     test_selection_sort_string();
 
-    // test_merge_sort_int();
-    // test_merge_sort_string();
+    test_merge_sort_int();
+    test_merge_sort_string();
 
     // test_quick_sort_int();
     // test_quick_sort_string();

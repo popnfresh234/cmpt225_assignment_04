@@ -113,8 +113,83 @@ SortStats selection_sort(vector<T> &v)
 };
 
 template <typename T>
+ulong merge(vector<T> &left, vector<T> &right, vector<T> &v)
+{
+    int i = 0;
+    int j = 0;
+    int idx = 0;
+    ulong count = 0;
+    while (i < left.size() && j < right.size())
+    {
+        if (left[i] < right[j])
+        {
+            count++;
+            v[idx] = left[i];
+            i++;
+            idx++;
+        }
+        else
+        {
+            v[idx] = right[j];
+            j++;
+            idx++;
+        }
+    }
+
+    // Push remaining els
+    while (i < left.size())
+    {
+        v[idx] = left[i];
+        i++;
+        idx++;
+    }
+
+    while (j < right.size())
+    {
+        v[idx] = right[j];
+        j++;
+        idx++;
+    }
+    return count;
+};
+
+// Helper methods for MergeSort
+template <typename T>
+int merge_sort_impl(vector<T> &v, ulong count)
+{
+    // If only one element, return
+    if (v.size() <= 1)
+    {
+        return 0;
+    }
+    else
+    {
+        int mid = v.size() / 2;
+
+        vector<T> left;
+        vector<T> right;
+        for (int i = 0; i < mid; i++)
+        {
+            left.push_back(v[i]);
+        }
+
+        for (int j = mid; j < v.size(); j++)
+        {
+            right.push_back(v[j]);
+        }
+
+        merge_sort_impl(left, count);
+        merge_sort_impl(right, count);
+        return count + merge(left, right, v);
+    }
+}
+
+template <typename T>
 SortStats merge_sort(vector<T> &v)
 {
+
+    ulong count = merge_sort_impl(v, 0);
+    cout << "count is: " << count << endl;
     return SortStats{"Insertion sort",
                      v.size(),
                      0,
@@ -157,6 +232,10 @@ vector<int> rand_vec(int n, int min, int max)
 {
     cout << n << min << max << endl;
     vector<int> vect;
+    vect.push_back(1);
+    vect.push_back(8);
+    vect.push_back(4);
+
     return vect;
 }
 
