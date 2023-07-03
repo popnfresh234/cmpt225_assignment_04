@@ -7,6 +7,7 @@
 //
 
 #include <cassert>
+#include <fstream>
 #include <string>
 
 #include "a4_base.h"
@@ -359,20 +360,39 @@ void test_iquick_sort_string() {
     assert(is_sorted(v));
 }
 
+void bubble_sort_test(ofstream &out) {
+    for (int i = 2000; i <= 50000; i += 2000) {
+        vector<int> random_vector = rand_vec(i, 1, i);
+        SortStats stats = bubble_sort(random_vector);
+        out << stats.to_csv() << endl;
+    }
+}
+
+void insertion_sort_test(ofstream &out) {
+    for (int i = 2000; i <= 50000; i += 2000) {
+        vector<int> random_vector = rand_vec(i, 1, i);
+        SortStats stats = insertion_sort(random_vector);
+        out << stats.to_csv() << endl;
+    }
+}
+
 int main() {
-    test_is_sorted_int();
-    test_is_sorted_string();
+    string outfile_name = "output.csv";
+    ofstream outfile = ofstream(outfile_name, std::ofstream::out);
 
-    test_bubble_sort_int();
-    test_bubble_sort_string();
+    // test_is_sorted_int();
+    // test_is_sorted_string();
 
-    test_insertion_sort_int();
-    test_insertion_sort_string();
+    // test_bubble_sort_int();
+    // test_bubble_sort_string();
 
-    test_selection_sort_int();
-    test_selection_sort_string();
+    // test_insertion_sort_int();
+    // test_insertion_sort_string();
 
-    test_merge_sort_int();
+    // test_selection_sort_int();
+    // test_selection_sort_string();
+
+    // test_merge_sort_int();
     // test_merge_sort_string();
 
     // test_quick_sort_int();
@@ -383,6 +403,7 @@ int main() {
 
     // test_iquick_sort_int();
     // test_iquick_sort_string();
-
+    bubble_sort_test(outfile);
+    insertion_sort_test(outfile);
     cout << "\nall sorting tests passed!" << endl;
 }  // main

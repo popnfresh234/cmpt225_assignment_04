@@ -96,70 +96,79 @@ SortStats selection_sort(vector<T> &v) {
 };
 
 template <typename T>
-ulong merge(vector<T> &left, vector<T> &right, vector<T> &v) {
-    int i = 0;
-    int j = 0;
-    int idx = 0;
+int merge(vector<T> &left, vector<T> &right, vector<T> &v) {
     ulong num_comps = 0;
-    while (i < left.size() && j < right.size()) {
-        if (left[i] < right[j]) {
-            num_comps++;
-            v[idx] = left[i];
-            i++;
-            idx++;
+    int l = 0;
+    int r = 0;
+    int idx = 0;
+
+    while (l < left.size() && r < right.size()) {
+        num_comps += 1;
+        if (left[l] <= right[r]) {
+            v[idx] = left[l];
+            l += 1;
         } else {
-            num_comps++;
-            v[idx] = right[j];
-            j++;
-            idx++;
+            v[idx] = right[r];
+            r += 1;
         }
+        idx += 1;
     }
 
-    // Push remaining els
-    while (i < left.size()) {
-        v[idx] = left[i];
-        i++;
-        idx++;
+    while (l < left.size()) {
+        v[idx] = left[l];
+        l += 1;
+        idx += 1;
     }
 
-    while (j < right.size()) {
-        v[idx] = right[j];
-        j++;
-        idx++;
+    while (r < right.size()) {
+        v[idx] = right[r];
+        r += 1;
+        idx += 1;
     }
     return num_comps;
-};
+}
 
 // Helper methods for MergeSort
 template <typename T>
-int merge_sort_impl(vector<T> &v, ulong count) {
-    // If only one element, return
+int merge_sort_impl(vector<T> &v) {
     if (v.size() <= 1) {
         return 0;
-    } else {
-        int mid = v.size() / 2;
-
-        vector<T> left;
-        vector<T> right;
-        for (int i = 0; i < mid; i++) {
-            left.push_back(v[i]);
-        }
-
-        for (int j = mid; j < v.size(); j++) {
-            right.push_back(v[j]);
-        }
-
-        merge_sort_impl(left, count);
-        merge_sort_impl(right, count);
-        return count + merge(left, right, v);
     }
+
+    //
+    // Find the mid point of the vector
+    // Create two new vectors to hold each half
+    //
+    int mid = v.size() / 2;
+    vector<T> left;
+    vector<T> right;
+
+    //
+    // Push first half of old vector into
+    // new left vector, second half into new right
+    //
+    for (int i = 0; i < mid; i++) {
+        left.push_back(v[i]);
+    }
+
+    for (int j = mid; j < v.size(); j++) {
+        right.push_back(v[j]);
+    }
+
+    //
+    // recursively merge sort the
+    // two havles of the original vector
+    //
+    ulong num_comps = merge_sort_impl(left) + merge_sort_impl(right);
+    num_comps += merge(left, right, v);
+
+    return num_comps;
 }
 
 template <typename T>
 SortStats merge_sort(vector<T> &v) {
     clock_t start = clock();
-    ulong num_comps = merge_sort_impl(v, 0);
-    cout << "num_comps_merge: " << num_comps << endl;
+    ulong num_comps = merge_sort_impl(v);
     clock_t end = clock();
     double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
     return SortStats{"Merge sort",
@@ -198,13 +207,12 @@ SortStats iquick_sort(vector<T> &v) {
 // Returns a vector of n randomly chosen ints, each <= max and >= min.
 //
 vector<int> rand_vec(int n, int min, int max) {
-    cout << n << min << max << endl;
-    vector<int> vect;
-    vect.push_back(1);
-    vect.push_back(8);
-    vect.push_back(4);
-
-    return vect;
+    vector<int> random_vector;
+    for (int i = 0; i < n; i++) {
+        int next = rand() % max + min;
+        random_vector.push_back(next);
+    }
+    return random_vector;
 }
 
 //
