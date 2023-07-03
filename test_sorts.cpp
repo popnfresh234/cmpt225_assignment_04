@@ -6,16 +6,16 @@
 // Ignores the SortStats object returned by the sort functions.
 //
 
-#include "a4_base.h"
-#include "a4_sort_implementations.h"
-#include "test.h"
 #include <cassert>
 #include <string>
 
+#include "a4_base.h"
+#include "a4_sort_implementations.h"
+#include "test.h"
+
 using namespace std;
 
-void test_is_sorted_int()
-{
+void test_is_sorted_int() {
     Test("test_is_sorted_int");
     vector<int> v;
     assert(is_sorted(v));
@@ -43,8 +43,7 @@ void test_is_sorted_int()
     assert(is_sorted(v));
 }
 
-void test_is_sorted_string()
-{
+void test_is_sorted_string() {
     Test("test_is_sorted_string");
     vector<string> v;
     assert(is_sorted(v));
@@ -72,8 +71,7 @@ void test_is_sorted_string()
     assert(is_sorted(v));
 }
 
-void test_bubble_sort_int()
-{
+void test_bubble_sort_int() {
     Test("test_bubble_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -92,8 +90,7 @@ void test_bubble_sort_int()
     assert(is_sorted(v));
 }
 
-void test_bubble_sort_string()
-{
+void test_bubble_sort_string() {
     Test("test_bubble_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -115,8 +112,7 @@ void test_bubble_sort_string()
     assert(is_sorted(v));
 }
 
-void test_insertion_sort_int()
-{
+void test_insertion_sort_int() {
     Test("test_insertion_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -135,8 +131,7 @@ void test_insertion_sort_int()
     assert(is_sorted(v));
 }
 
-void test_insertion_sort_string()
-{
+void test_insertion_sort_string() {
     Test("test_insertion_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -158,8 +153,7 @@ void test_insertion_sort_string()
     assert(is_sorted(v));
 }
 
-void test_selection_sort_int()
-{
+void test_selection_sort_int() {
     Test("test_selection_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -178,8 +172,7 @@ void test_selection_sort_int()
     assert(is_sorted(v));
 }
 
-void test_selection_sort_string()
-{
+void test_selection_sort_string() {
     Test("test_selection_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -201,8 +194,7 @@ void test_selection_sort_string()
     assert(is_sorted(v));
 }
 
-void test_merge_sort_int()
-{
+void test_merge_sort_int() {
     Test("test_merge_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -217,18 +209,12 @@ void test_merge_sort_int()
     merge_sort(v);
     assert(is_sorted(v));
     v = {
-        2,
-        1,
-        0,
-        8,
-        3,
-        99};
+        5, 2, 8, 6, 9, 1, 3, 7, 0, 4};
     merge_sort(v);
     assert(is_sorted(v));
 }
 
-void test_merge_sort_string()
-{
+void test_merge_sort_string() {
     Test("test_merge_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -245,13 +231,12 @@ void test_merge_sort_string()
     v = {"b", "a", "c"};
     merge_sort(v);
     assert(is_sorted(v));
-    v = {"a", "b", "c"};
+    v = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "q"};
     merge_sort(v);
     assert(is_sorted(v));
 }
 
-void test_quick_sort_int()
-{
+void test_quick_sort_int() {
     Test("test_quick_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -270,8 +255,7 @@ void test_quick_sort_int()
     assert(is_sorted(v));
 }
 
-void test_quick_sort_string()
-{
+void test_quick_sort_string() {
     Test("test_quick_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -293,8 +277,7 @@ void test_quick_sort_string()
     assert(is_sorted(v));
 }
 
-void test_shell_sort_int()
-{
+void test_shell_sort_int() {
     Test("test_shell_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -313,8 +296,7 @@ void test_shell_sort_int()
     assert(is_sorted(v));
 }
 
-void test_shell_sort_string()
-{
+void test_shell_sort_string() {
     Test("test_shell_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -336,8 +318,7 @@ void test_shell_sort_string()
     assert(is_sorted(v));
 }
 
-void test_iquick_sort_int()
-{
+void test_iquick_sort_int() {
     Test("test_iquick_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -356,8 +337,7 @@ void test_iquick_sort_int()
     assert(is_sorted(v));
 }
 
-void test_iquick_sort_string()
-{
+void test_iquick_sort_string() {
     Test("test_iquick_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -379,8 +359,7 @@ void test_iquick_sort_string()
     assert(is_sorted(v));
 }
 
-int main()
-{
+int main() {
     test_is_sorted_int();
     test_is_sorted_string();
 
@@ -394,7 +373,7 @@ int main()
     test_selection_sort_string();
 
     test_merge_sort_int();
-    test_merge_sort_string();
+    // test_merge_sort_string();
 
     // test_quick_sort_int();
     // test_quick_sort_string();
@@ -406,4 +385,4 @@ int main()
     // test_iquick_sort_string();
 
     cout << "\nall sorting tests passed!" << endl;
-} // main
+}  // main

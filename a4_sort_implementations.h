@@ -7,16 +7,12 @@
 using namespace std;
 
 template <typename T>
-bool is_sorted(vector<T> &v)
-{
-    if (v.size() == 0)
-    {
+bool is_sorted(vector<T> &v) {
+    if (v.size() == 0) {
         return true;
     }
-    for (int i = 0; i < v.size() - 1; i++)
-    {
-        if (v[i] > v[i + 1])
-        {
+    for (int i = 0; i < v.size() - 1; i++) {
+        if (v[i] > v[i + 1]) {
             return false;
         }
     }
@@ -24,18 +20,14 @@ bool is_sorted(vector<T> &v)
 }
 
 template <typename T>
-SortStats bubble_sort(vector<T> &v)
-{
-    ulong num_comps = 0; // <--- num_comps is initialized to 0 here
+SortStats bubble_sort(vector<T> &v) {
+    ulong num_comps = 0;  // <--- num_comps is initialized to 0 here
     clock_t start = clock();
 
-    for (int i = 0; i < v.size(); i++)
-    {
-        for (int j = 0; j < v.size() - 1; j++)
-        {
-            num_comps++; // <--- num_comps is incremented here
-            if (v[j] > v[j + 1])
-            {
+    for (int i = 0; i < v.size(); i++) {
+        for (int j = 0; j < v.size() - 1; j++) {
+            num_comps++;  // <--- num_comps is incremented here
+            if (v[j] > v[j + 1]) {
                 T temp = v[j];
                 v[j] = v[j + 1];
                 v[j + 1] = temp;
@@ -53,18 +45,14 @@ SortStats bubble_sort(vector<T> &v)
 }
 
 template <typename T>
-SortStats insertion_sort(vector<T> &v)
-{
-
-    ulong num_comps = 0; // <--- num_comps is initialized to 0 here
+SortStats insertion_sort(vector<T> &v) {
+    ulong num_comps = 0;  // <--- num_comps is initialized to 0 here
     clock_t start = clock();
 
-    for (int i = 0; i < v.size(); i++)
-    {
+    for (int i = 0; i < v.size(); i++) {
         T cur = v[i];
         int j = i - 1;
-        while (j >= 0 && (v[j] > cur))
-        {
+        while (j >= 0 && (v[j] > cur)) {
             v[j + 1] = v[j];
             j--;
             num_comps++;
@@ -81,20 +69,15 @@ SortStats insertion_sort(vector<T> &v)
 };
 
 template <typename T>
-SortStats selection_sort(vector<T> &v)
-{
-
-    ulong num_comps = 0; // <--- num_comps is initialized to 0 here
+SortStats selection_sort(vector<T> &v) {
+    ulong num_comps = 0;  // <--- num_comps is initialized to 0 here
     clock_t start = clock();
 
     int minIdx;
-    for (int i = 0; i < v.size(); i++)
-    {
+    for (int i = 0; i < v.size(); i++) {
         minIdx = i;
-        for (int j = i + 1; j < v.size(); j++)
-        {
-            if (v[j] < v[i])
-            {
+        for (int j = i + 1; j < v.size(); j++) {
+            if (v[j] < v[i]) {
                 minIdx = j;
             }
         }
@@ -113,23 +96,19 @@ SortStats selection_sort(vector<T> &v)
 };
 
 template <typename T>
-ulong merge(vector<T> &left, vector<T> &right, vector<T> &v)
-{
+ulong merge(vector<T> &left, vector<T> &right, vector<T> &v) {
     int i = 0;
     int j = 0;
     int idx = 0;
-    ulong count = 0;
-    while (i < left.size() && j < right.size())
-    {
-        if (left[i] < right[j])
-        {
-            count++;
+    ulong num_comps = 0;
+    while (i < left.size() && j < right.size()) {
+        if (left[i] < right[j]) {
+            num_comps++;
             v[idx] = left[i];
             i++;
             idx++;
-        }
-        else
-        {
+        } else {
+            num_comps++;
             v[idx] = right[j];
             j++;
             idx++;
@@ -137,44 +116,36 @@ ulong merge(vector<T> &left, vector<T> &right, vector<T> &v)
     }
 
     // Push remaining els
-    while (i < left.size())
-    {
+    while (i < left.size()) {
         v[idx] = left[i];
         i++;
         idx++;
     }
 
-    while (j < right.size())
-    {
+    while (j < right.size()) {
         v[idx] = right[j];
         j++;
         idx++;
     }
-    return count;
+    return num_comps;
 };
 
 // Helper methods for MergeSort
 template <typename T>
-int merge_sort_impl(vector<T> &v, ulong count)
-{
+int merge_sort_impl(vector<T> &v, ulong count) {
     // If only one element, return
-    if (v.size() <= 1)
-    {
+    if (v.size() <= 1) {
         return 0;
-    }
-    else
-    {
+    } else {
         int mid = v.size() / 2;
 
         vector<T> left;
         vector<T> right;
-        for (int i = 0; i < mid; i++)
-        {
+        for (int i = 0; i < mid; i++) {
             left.push_back(v[i]);
         }
 
-        for (int j = mid; j < v.size(); j++)
-        {
+        for (int j = mid; j < v.size(); j++) {
             right.push_back(v[j]);
         }
 
@@ -185,20 +156,20 @@ int merge_sort_impl(vector<T> &v, ulong count)
 }
 
 template <typename T>
-SortStats merge_sort(vector<T> &v)
-{
-
-    ulong count = merge_sort_impl(v, 0);
-    cout << "count is: " << count << endl;
-    return SortStats{"Insertion sort",
+SortStats merge_sort(vector<T> &v) {
+    clock_t start = clock();
+    ulong num_comps = merge_sort_impl(v, 0);
+    cout << "num_comps_merge: " << num_comps << endl;
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+    return SortStats{"Merge sort",
                      v.size(),
-                     0,
-                     0};
+                     num_comps,
+                     elapsed_cpu_time_sec};
 };
 
 template <typename T>
-SortStats quick_sort(vector<T> &v)
-{
+SortStats quick_sort(vector<T> &v) {
     return SortStats{"Insertion sort",
                      v.size(),
                      0,
@@ -206,8 +177,7 @@ SortStats quick_sort(vector<T> &v)
 }
 
 template <typename T>
-SortStats shell_sort(vector<T> &v)
-{
+SortStats shell_sort(vector<T> &v) {
     return SortStats{"Insertion sort",
                      v.size(),
                      0,
@@ -216,8 +186,7 @@ SortStats shell_sort(vector<T> &v)
 
 template <typename T>
 
-SortStats iquick_sort(vector<T> &v)
-{
+SortStats iquick_sort(vector<T> &v) {
     return SortStats{"Insertion sort",
                      v.size(),
                      0,
@@ -228,8 +197,7 @@ SortStats iquick_sort(vector<T> &v)
 //
 // Returns a vector of n randomly chosen ints, each <= max and >= min.
 //
-vector<int> rand_vec(int n, int min, int max)
-{
+vector<int> rand_vec(int n, int min, int max) {
     cout << n << min << max << endl;
     vector<int> vect;
     vect.push_back(1);
