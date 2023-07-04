@@ -436,6 +436,16 @@ void shell_sort_test(ofstream &out)
     }
 }
 
+void iquick_sort_test(ofstream &out)
+{
+    for (int i = 2000; i <= 50000; i += 2000)
+    {
+        vector<int> random_vector = rand_vec(i, 1, i);
+        SortStats stats = iquick_sort(random_vector);
+        out << stats.to_csv() << endl;
+    }
+}
+
 int main()
 {
     string outfile_name = "output.csv";
@@ -471,6 +481,7 @@ int main()
     merge_sort_test(outfile);
     quick_sort_test(outfile);
     shell_sort_test(outfile);
+    iquick_sort_test(outfile);
 
     cout << "\nall sorting tests passed!" << endl;
 } // main

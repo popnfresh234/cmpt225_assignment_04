@@ -305,22 +305,60 @@ template <typename T>
 ulong iquick_sort_impl(vector<T> &v, int low, int high)
 {
     ulong num_comps = 0;
-    if (high - low < 10)
+    if (high - low < 5)
     {
-
-        ulong += insertion_sort_impl(v, low, high);
+        num_comps += insertion_sort_impl(v, low, high);
     }
+    else
+    {
+        if (low >= high)
+        {
+            return 0;
+        }
+
+        T p = v[high];
+        int left = low;
+        int right = high - 1;
+        while (left <= right)
+        {
+            while (left <= right && v[left] <= p)
+            {
+                num_comps++;
+                left++;
+            }
+
+            while (right >= left && v[right] >= p)
+            {
+                num_comps++;
+                right--;
+            }
+
+            if (left < right)
+            {
+                swap(left, right, v);
+            }
+        }
+        swap(left, high, v);
+
+        num_comps += iquick_sort_impl(v, low, left - 1);
+        num_comps += iquick_sort_impl(v, left + 1, high);
+    }
+
+    return num_comps;
 }
 
 template <typename T>
 SortStats iquick_sort(vector<T> &v)
 {
+    clock_t start = clock();
 
-    ulong num_comps = iquick_sort_impl(v, 0, v.size() - 1);
-    return SortStats{"Insertion sort",
+    ulong num_comps = iquick_sort_impl(v, 0, v.size());
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+    return SortStats{"IQuick sort",
                      v.size(),
-                     0,
-                     0};
+                     num_comps,
+                     elapsed_cpu_time_sec};
 };
 // See description in assignment.
 
