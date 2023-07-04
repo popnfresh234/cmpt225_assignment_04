@@ -7,12 +7,16 @@
 using namespace std;
 
 template <typename T>
-bool is_sorted(vector<T> &v) {
-    if (v.size() == 0) {
+bool is_sorted(vector<T> &v)
+{
+    if (v.size() == 0)
+    {
         return true;
     }
-    for (int i = 0; i < v.size() - 1; i++) {
-        if (v[i] > v[i + 1]) {
+    for (int i = 0; i < v.size() - 1; i++)
+    {
+        if (v[i] > v[i + 1])
+        {
             return false;
         }
     }
@@ -20,14 +24,18 @@ bool is_sorted(vector<T> &v) {
 }
 
 template <typename T>
-SortStats bubble_sort(vector<T> &v) {
-    ulong num_comps = 0;  // <--- num_comps is initialized to 0 here
+SortStats bubble_sort(vector<T> &v)
+{
+    ulong num_comps = 0; // <--- num_comps is initialized to 0 here
     clock_t start = clock();
 
-    for (int i = 0; i < v.size(); i++) {
-        for (int j = 0; j < v.size() - 1; j++) {
-            num_comps++;  // <--- num_comps is incremented here
-            if (v[j] > v[j + 1]) {
+    for (int i = 0; i < v.size(); i++)
+    {
+        for (int j = 0; j < v.size() - 1; j++)
+        {
+            num_comps++; // <--- num_comps is incremented here
+            if (v[j] > v[j + 1])
+            {
                 T temp = v[j];
                 v[j] = v[j + 1];
                 v[j + 1] = temp;
@@ -45,14 +53,17 @@ SortStats bubble_sort(vector<T> &v) {
 }
 
 template <typename T>
-SortStats insertion_sort(vector<T> &v) {
-    ulong num_comps = 0;  // <--- num_comps is initialized to 0 here
+SortStats insertion_sort(vector<T> &v)
+{
+    ulong num_comps = 0; // <--- num_comps is initialized to 0 here
     clock_t start = clock();
 
-    for (int i = 0; i < v.size(); i++) {
+    for (int i = 0; i < v.size(); i++)
+    {
         T cur = v[i];
         int j = i - 1;
-        while (j >= 0 && (v[j] > cur)) {
+        while (j >= 0 && (v[j] > cur))
+        {
             v[j + 1] = v[j];
             j--;
             num_comps++;
@@ -69,15 +80,19 @@ SortStats insertion_sort(vector<T> &v) {
 };
 
 template <typename T>
-SortStats selection_sort(vector<T> &v) {
-    ulong num_comps = 0;  // <--- num_comps is initialized to 0 here
+SortStats selection_sort(vector<T> &v)
+{
+    ulong num_comps = 0; // <--- num_comps is initialized to 0 here
     clock_t start = clock();
 
     int minIdx;
-    for (int i = 0; i < v.size(); i++) {
+    for (int i = 0; i < v.size(); i++)
+    {
         minIdx = i;
-        for (int j = i + 1; j < v.size(); j++) {
-            if (v[j] < v[i]) {
+        for (int j = i + 1; j < v.size(); j++)
+        {
+            if (v[j] < v[i])
+            {
                 minIdx = j;
             }
         }
@@ -96,31 +111,38 @@ SortStats selection_sort(vector<T> &v) {
 };
 
 template <typename T>
-int merge(vector<T> &left, vector<T> &right, vector<T> &v) {
+int merge(vector<T> &left, vector<T> &right, vector<T> &v)
+{
     ulong num_comps = 0;
     int l = 0;
     int r = 0;
     int idx = 0;
 
-    while (l < left.size() && r < right.size()) {
+    while (l < left.size() && r < right.size())
+    {
         num_comps += 1;
-        if (left[l] <= right[r]) {
+        if (left[l] <= right[r])
+        {
             v[idx] = left[l];
             l += 1;
-        } else {
+        }
+        else
+        {
             v[idx] = right[r];
             r += 1;
         }
         idx += 1;
     }
 
-    while (l < left.size()) {
+    while (l < left.size())
+    {
         v[idx] = left[l];
         l += 1;
         idx += 1;
     }
 
-    while (r < right.size()) {
+    while (r < right.size())
+    {
         v[idx] = right[r];
         r += 1;
         idx += 1;
@@ -130,8 +152,10 @@ int merge(vector<T> &left, vector<T> &right, vector<T> &v) {
 
 // Helper methods for MergeSort
 template <typename T>
-int merge_sort_impl(vector<T> &v) {
-    if (v.size() <= 1) {
+ulong merge_sort_impl(vector<T> &v)
+{
+    if (v.size() <= 1)
+    {
         return 0;
     }
 
@@ -147,11 +171,13 @@ int merge_sort_impl(vector<T> &v) {
     // Push first half of old vector into
     // new left vector, second half into new right
     //
-    for (int i = 0; i < mid; i++) {
+    for (int i = 0; i < mid; i++)
+    {
         left.push_back(v[i]);
     }
 
-    for (int j = mid; j < v.size(); j++) {
+    for (int j = mid; j < v.size(); j++)
+    {
         right.push_back(v[j]);
     }
 
@@ -166,7 +192,8 @@ int merge_sort_impl(vector<T> &v) {
 }
 
 template <typename T>
-SortStats merge_sort(vector<T> &v) {
+SortStats merge_sort(vector<T> &v)
+{
     clock_t start = clock();
     ulong num_comps = merge_sort_impl(v);
     clock_t end = clock();
@@ -178,24 +205,96 @@ SortStats merge_sort(vector<T> &v) {
 };
 
 template <typename T>
-SortStats quick_sort(vector<T> &v) {
-    return SortStats{"Insertion sort",
-                     v.size(),
-                     0,
-                     0};
+void swap(int i, int j, vector<T> &v)
+{
+    T tmp = v[i];
+    v[i] = v[j];
+    v[j] = tmp;
 }
 
 template <typename T>
-SortStats shell_sort(vector<T> &v) {
-    return SortStats{"Insertion sort",
+ulong quick_sort_impl(vector<T> &v, int l, int h)
+{
+    ulong num_comps = 0;
+    if (l >= h)
+    {
+        return 0;
+    }
+
+    T p = v[h];
+    int left = l;
+    int right = h - 1;
+    while (left <= right)
+    {
+        while (left <= right && v[left] <= p)
+        {
+            num_comps++;
+            left++;
+        }
+
+        while (right >= left && v[right] >= p)
+        {
+            num_comps++;
+            right--;
+        }
+
+        if (left < right)
+        {
+            swap(left, right, v);
+        }
+    }
+    swap(left, h, v);
+    num_comps += quick_sort_impl(v, l, left - 1);
+    num_comps += quick_sort_impl(v, left + 1, h);
+    return num_comps;
+}
+
+template <typename T>
+SortStats quick_sort(vector<T> &v)
+{
+    clock_t start = clock();
+    ulong num_comps = quick_sort_impl(v, 0, v.size() - 1);
+
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+    return SortStats{"Quick sort",
                      v.size(),
-                     0,
-                     0};
+                     num_comps,
+                     elapsed_cpu_time_sec};
+}
+
+template <typename T>
+SortStats shell_sort(vector<T> &v)
+{
+    clock_t start = clock();
+    ulong num_comps = 0;
+    for (int interval = v.size() / 2; interval > 0; interval /= 2)
+    {
+        for (int i = interval; i < v.size(); i++)
+        {
+            T tmp = v[i];
+            int j;
+            for (j = i; j >= interval && v[j - interval] > tmp; j -= interval)
+            {
+                v[j] = v[j - interval];
+                num_comps++;
+            }
+            v[j] = tmp;
+        }
+    }
+
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+    return SortStats{"Shell sort",
+                     v.size(),
+                     num_comps,
+                     elapsed_cpu_time_sec};
 }
 
 template <typename T>
 
-SortStats iquick_sort(vector<T> &v) {
+SortStats iquick_sort(vector<T> &v)
+{
     return SortStats{"Insertion sort",
                      v.size(),
                      0,
@@ -206,9 +305,11 @@ SortStats iquick_sort(vector<T> &v) {
 //
 // Returns a vector of n randomly chosen ints, each <= max and >= min.
 //
-vector<int> rand_vec(int n, int min, int max) {
+vector<int> rand_vec(int n, int min, int max)
+{
     vector<int> random_vector;
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++)
+    {
         int next = rand() % max + min;
         random_vector.push_back(next);
     }

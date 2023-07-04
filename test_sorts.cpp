@@ -16,7 +16,8 @@
 
 using namespace std;
 
-void test_is_sorted_int() {
+void test_is_sorted_int()
+{
     Test("test_is_sorted_int");
     vector<int> v;
     assert(is_sorted(v));
@@ -44,7 +45,8 @@ void test_is_sorted_int() {
     assert(is_sorted(v));
 }
 
-void test_is_sorted_string() {
+void test_is_sorted_string()
+{
     Test("test_is_sorted_string");
     vector<string> v;
     assert(is_sorted(v));
@@ -72,7 +74,8 @@ void test_is_sorted_string() {
     assert(is_sorted(v));
 }
 
-void test_bubble_sort_int() {
+void test_bubble_sort_int()
+{
     Test("test_bubble_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -91,7 +94,8 @@ void test_bubble_sort_int() {
     assert(is_sorted(v));
 }
 
-void test_bubble_sort_string() {
+void test_bubble_sort_string()
+{
     Test("test_bubble_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -113,7 +117,8 @@ void test_bubble_sort_string() {
     assert(is_sorted(v));
 }
 
-void test_insertion_sort_int() {
+void test_insertion_sort_int()
+{
     Test("test_insertion_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -132,7 +137,8 @@ void test_insertion_sort_int() {
     assert(is_sorted(v));
 }
 
-void test_insertion_sort_string() {
+void test_insertion_sort_string()
+{
     Test("test_insertion_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -154,7 +160,8 @@ void test_insertion_sort_string() {
     assert(is_sorted(v));
 }
 
-void test_selection_sort_int() {
+void test_selection_sort_int()
+{
     Test("test_selection_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -173,7 +180,8 @@ void test_selection_sort_int() {
     assert(is_sorted(v));
 }
 
-void test_selection_sort_string() {
+void test_selection_sort_string()
+{
     Test("test_selection_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -195,7 +203,8 @@ void test_selection_sort_string() {
     assert(is_sorted(v));
 }
 
-void test_merge_sort_int() {
+void test_merge_sort_int()
+{
     Test("test_merge_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -215,7 +224,8 @@ void test_merge_sort_int() {
     assert(is_sorted(v));
 }
 
-void test_merge_sort_string() {
+void test_merge_sort_string()
+{
     Test("test_merge_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -237,7 +247,8 @@ void test_merge_sort_string() {
     assert(is_sorted(v));
 }
 
-void test_quick_sort_int() {
+void test_quick_sort_int()
+{
     Test("test_quick_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -256,7 +267,8 @@ void test_quick_sort_int() {
     assert(is_sorted(v));
 }
 
-void test_quick_sort_string() {
+void test_quick_sort_string()
+{
     Test("test_quick_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -278,7 +290,8 @@ void test_quick_sort_string() {
     assert(is_sorted(v));
 }
 
-void test_shell_sort_int() {
+void test_shell_sort_int()
+{
     Test("test_shell_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -297,7 +310,8 @@ void test_shell_sort_int() {
     assert(is_sorted(v));
 }
 
-void test_shell_sort_string() {
+void test_shell_sort_string()
+{
     Test("test_shell_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -319,7 +333,8 @@ void test_shell_sort_string() {
     assert(is_sorted(v));
 }
 
-void test_iquick_sort_int() {
+void test_iquick_sort_int()
+{
     Test("test_iquick_sort_int");
     vector<int> v;
     assert(v.size() == 0);
@@ -338,7 +353,8 @@ void test_iquick_sort_int() {
     assert(is_sorted(v));
 }
 
-void test_iquick_sort_string() {
+void test_iquick_sort_string()
+{
     Test("test_iquick_sort_string");
     vector<string> v;
     assert(v.size() == 0);
@@ -360,23 +376,68 @@ void test_iquick_sort_string() {
     assert(is_sorted(v));
 }
 
-void bubble_sort_test(ofstream &out) {
-    for (int i = 2000; i <= 50000; i += 2000) {
+void bubble_sort_test(ofstream &out)
+{
+    for (int i = 2000; i <= 50000; i += 2000)
+    {
         vector<int> random_vector = rand_vec(i, 1, i);
         SortStats stats = bubble_sort(random_vector);
         out << stats.to_csv() << endl;
     }
 }
 
-void insertion_sort_test(ofstream &out) {
-    for (int i = 2000; i <= 50000; i += 2000) {
+void insertion_sort_test(ofstream &out)
+{
+    for (int i = 2000; i <= 50000; i += 2000)
+    {
         vector<int> random_vector = rand_vec(i, 1, i);
         SortStats stats = insertion_sort(random_vector);
         out << stats.to_csv() << endl;
     }
 }
 
-int main() {
+void selection_sort_test(ofstream &out)
+{
+    for (int i = 2000; i <= 50000; i += 2000)
+    {
+        vector<int> random_vector = rand_vec(i, 1, i);
+        SortStats stats = selection_sort(random_vector);
+        out << stats.to_csv() << endl;
+    }
+}
+
+void merge_sort_test(ofstream &out)
+{
+    for (int i = 2000; i <= 50000; i += 2000)
+    {
+        vector<int> random_vector = rand_vec(i, 1, i);
+        SortStats stats = merge_sort(random_vector);
+        out << stats.to_csv() << endl;
+    }
+}
+
+void quick_sort_test(ofstream &out)
+{
+    for (int i = 2000; i <= 50000; i += 2000)
+    {
+        vector<int> random_vector = rand_vec(i, 1, i);
+        SortStats stats = quick_sort(random_vector);
+        out << stats.to_csv() << endl;
+    }
+}
+
+void shell_sort_test(ofstream &out)
+{
+    for (int i = 2000; i <= 50000; i += 2000)
+    {
+        vector<int> random_vector = rand_vec(i, 1, i);
+        SortStats stats = shell_sort(random_vector);
+        out << stats.to_csv() << endl;
+    }
+}
+
+int main()
+{
     string outfile_name = "output.csv";
     ofstream outfile = ofstream(outfile_name, std::ofstream::out);
 
@@ -403,7 +464,13 @@ int main() {
 
     // test_iquick_sort_int();
     // test_iquick_sort_string();
+
     bubble_sort_test(outfile);
     insertion_sort_test(outfile);
+    selection_sort_test(outfile);
+    merge_sort_test(outfile);
+    quick_sort_test(outfile);
+    shell_sort_test(outfile);
+
     cout << "\nall sorting tests passed!" << endl;
-}  // main
+} // main
