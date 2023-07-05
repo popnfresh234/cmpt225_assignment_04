@@ -163,9 +163,11 @@ int merge(vector<T> &left, vector<T> &right, vector<T> &v)
 template <typename T>
 ulong merge_sort_impl(vector<T> &v)
 {
+    ulong num_comps = 0;
+
     if (v.size() <= 1)
     {
-        return 0;
+        return num_comps;
     }
 
     //
@@ -173,30 +175,11 @@ ulong merge_sort_impl(vector<T> &v)
     // Create two new vectors to hold each half
     //
     int mid = v.size() / 2;
-    vector<T> left;
-    vector<T> right;
-
-    //
-    // Push first half of old vector into
-    // new left vector, second half into new right
-    //
-    for (int i = 0; i < mid; i++)
-    {
-        left.push_back(v[i]);
-    }
-
-    for (int j = mid; j < v.size(); j++)
-    {
-        right.push_back(v[j]);
-    }
-
-    //
-    // recursively merge sort the
-    // two havles of the original vector
-    //
-    ulong num_comps = merge_sort_impl(left) + merge_sort_impl(right);
+    vector<T> left(v.begin(), v.begin() + mid);
+    vector<T> right(v.begin() + mid, v.end());
+    num_comps += merge_sort_impl(left);
+    num_comps += merge_sort_impl(right);
     num_comps += merge(left, right, v);
-
     return num_comps;
 }
 
@@ -222,6 +205,24 @@ void swap(int i, int j, vector<T> &v)
 }
 
 template <typename T>
+int partition(vector<T> &v, int low, int high, ulong &num_comps)
+{
+    T p = v[high];
+    int i = low;
+    for (int j = low; j < high; j++)
+    {
+        if (v[j] < p)
+        {
+            swap(v[i], v[j]);
+            num_comps++;
+            i++;
+        }
+    }
+    swap(v[i], v[high]);
+    return i;
+}
+
+template <typename T>
 ulong quick_sort_impl(vector<T> &v, int l, int h)
 {
     ulong num_comps = 0;
@@ -229,33 +230,9 @@ ulong quick_sort_impl(vector<T> &v, int l, int h)
     {
         return 0;
     }
-
-    T p = v[h];
-    int left = l;
-    int right = h - 1;
-    while (left <= right)
-    {
-        while (left <= right && v[left] <= p)
-        {
-            num_comps++;
-            left++;
-        }
-
-        while (right >= left && v[right] >= p)
-        {
-            num_comps++;
-            right--;
-        }
-
-        if (left < right)
-        {
-            swap(left, right, v);
-        }
-    }
-    swap(left, h, v);
-
-    num_comps += quick_sort_impl(v, l, left - 1);
-    num_comps += quick_sort_impl(v, left + 1, h);
+    int pivot = partition(v, l, h, num_comps);
+    num_comps += quick_sort_impl(v, l, pivot - 1);
+    num_comps += quick_sort_impl(v, pivot + 1, h);
     return num_comps;
 }
 
@@ -311,37 +288,10 @@ ulong iquick_sort_impl(vector<T> &v, int low, int high)
     }
     else
     {
-        if (low >= high)
-        {
-            return 0;
-        }
 
-        T p = v[high];
-        int left = low;
-        int right = high - 1;
-        while (left <= right)
-        {
-            while (left <= right && v[left] <= p)
-            {
-                num_comps++;
-                left++;
-            }
-
-            while (right >= left && v[right] >= p)
-            {
-                num_comps++;
-                right--;
-            }
-
-            if (left < right)
-            {
-                swap(left, right, v);
-            }
-        }
-        swap(left, high, v);
-
-        num_comps += iquick_sort_impl(v, low, left - 1);
-        num_comps += iquick_sort_impl(v, left + 1, high);
+        int pivot = partition(v, low, high, num_comps);
+        num_comps += iquick_sort_impl(v, low, pivot - 1);
+        num_comps += iquick_sort_impl(v, pivot + 1, high);
     }
 
     return num_comps;
