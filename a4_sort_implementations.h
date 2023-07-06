@@ -73,7 +73,7 @@ ulong insertion_sort_impl(vector<T> &v, int low, int high)
 
             swapValues(j - 1, j, v);
             j--;
-            num_comps += 2;
+            num_comps++;
         }
     }
     return num_comps;

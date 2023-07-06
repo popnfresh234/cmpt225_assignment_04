@@ -458,36 +458,36 @@ int main()
     string outfile_name = "output.csv";
     ofstream outfile = ofstream(outfile_name, std::ofstream::out);
 
-    // test_is_sorted_int();
-    // test_is_sorted_string();
+    test_is_sorted_int();
+    test_is_sorted_string();
 
-    // test_bubble_sort_int();
-    // test_bubble_sort_string();
+    test_bubble_sort_int();
+    test_bubble_sort_string();
 
-    // test_insertion_sort_int();
-    // test_insertion_sort_string();
+    test_insertion_sort_int();
+    test_insertion_sort_string();
 
-    // test_selection_sort_int();
-    // test_selection_sort_string();
+    test_selection_sort_int();
+    test_selection_sort_string();
 
-    // test_merge_sort_int();
-    // test_merge_sort_string();
+    test_merge_sort_int();
+    test_merge_sort_string();
 
-    // test_quick_sort_int();
-    // test_quick_sort_string();
+    test_quick_sort_int();
+    test_quick_sort_string();
 
-    // test_shell_sort_int();
-    // test_shell_sort_string();
+    test_shell_sort_int();
+    test_shell_sort_string();
 
-    // test_iquick_sort_int();
-    // test_iquick_sort_string();
+    test_iquick_sort_int();
+    test_iquick_sort_string();
 
-    // bubble_sort_test(outfile);
-    // insertion_sort_test(outfile);
-    // selection_sort_test(outfile);
-    // merge_sort_test(outfile);
+    bubble_sort_test(outfile);
+    insertion_sort_test(outfile);
+    selection_sort_test(outfile);
+    merge_sort_test(outfile);
     quick_sort_test(outfile);
-    // shell_sort_test(outfile);
+    shell_sort_test(outfile);
     iquick_sort_test(outfile);
     cout << "\nall sorting tests passed!" << endl;
 } // main
