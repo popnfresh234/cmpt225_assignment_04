@@ -68,12 +68,11 @@ ulong insertion_sort_impl(vector<T> &v, int low, int high)
     for (int i = low; i < high; i++)
     {
         int j = i;
-        while (j > 0 && (v[j - 1] > v[j]))
+        while (j > 0 && (num_comps++, v[j - 1] > v[j]))
         {
 
             swapValues(j - 1, j, v);
             j--;
-            num_comps++;
         }
     }
     return num_comps;
@@ -105,10 +104,10 @@ SortStats selection_sort(vector<T> &v)
         int minIdx = i;
         for (int j = i + 1; j < v.size(); j++)
         {
+            num_comps++;
             if (v[j] < v[minIdx])
             {
                 minIdx = j;
-                num_comps++;
             }
         }
         // Swap min IDX to its correct position at i
@@ -310,6 +309,15 @@ SortStats iquick_sort(vector<T> &v)
 // See description in assignment.
 
 //
+//  Generates a random number
+//  bwetween max and min
+//
+int rand_int(int max, int min)
+{
+    return rand() % (max - min + 1) + min;
+}
+
+//
 // Returns a vector of n randomly chosen ints, each <= max and >= min.
 //
 vector<int> rand_vec(int n, int min, int max)
@@ -317,7 +325,7 @@ vector<int> rand_vec(int n, int min, int max)
     vector<int> random_vector;
     for (int i = 0; i < n; i++)
     {
-        int next = rand() % max + min;
+        int next = rand_int(max, min);
         random_vector.push_back(next);
     }
     return random_vector;
