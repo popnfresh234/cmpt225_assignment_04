@@ -1,34 +1,97 @@
 // a4_sort_implementations.h
 
+/////////////////////////////////////////////////////////////////////////
+//
+// Student Info
+// ------------
+//
+// Name : <put your full name here!>
+// St.# : <put your full SFU student number here>
+// Email: <put your SFU email address here>
+//
+//
+// Statement of Originality
+// ------------------------
+//
+// All the code and comments below are my own original work. For any non-
+// original work, I have provided citations in the comments with enough
+// detail so that someone can see the exact source and extent of the
+// borrowed work.
+//
+// In addition, I have not shared this work with anyone else, and I have
+// not seen solutions from other students, tutors, websites, books,
+// etc.
+//
+/////////////////////////////////////////////////////////////////////////
+
 #pragma once
 
 #include "a4_base.h"
 
 using namespace std;
 
+//
+// Helper method to swap values in a vector
+//
+template <typename T>
+void swap_vals(vector<T> &v, int a, int b)
+{
+    T tmp = v[a];
+    v[a] = v[b];
+    v[b] = tmp;
+}
+
+//
+// Generates random integer between min and max
+//
+int rand_int(int min, int max)
+{
+    return rand() % (max - min + 1) + min;
+}
+
+//
+// Returns a vector of n randomly chosen ints, each <= max and >= min.
+//
+vector<int> rand_vec(int n, int min, int max)
+{
+    srand(time(NULL));
+
+    vector<int> random_vector;
+    for (int i = 0; i < n; i++)
+    {
+        int next = rand_int(max, min);
+        random_vector.push_back(next);
+    }
+    return random_vector;
+}
+
+//
+// Generates a vector of random ints
+//
+vector<int> make_rand_vector(int size, int min, int max)
+{
+    vector<int> v;
+    for (int i = 0; i < size; i++)
+    {
+        v.push_back(rand_int(min, max));
+    }
+    return v;
+}
+
+//
+// Helper method to check if a vector is sorted
+// in non-decreasing order
 template <typename T>
 bool is_sorted(vector<T> &v)
 {
-    if (v.size() == 0)
+    for (int i = 1; i < v.size(); i++)
     {
-        return true;
-    }
-    for (int i = 0; i < v.size() - 1; i++)
-    {
-        if (v[i] > v[i + 1])
+        if (v[i - 1] > v[i])
         {
             return false;
         }
     }
     return true;
-}
-
-template <typename T>
-void swapValues(int i, int j, vector<T> &v)
-{
-    T tmp = v[i];
-    v[i] = v[j];
-    v[j] = tmp;
 }
 
 template <typename T>
@@ -60,18 +123,20 @@ SortStats bubble_sort(vector<T> &v)
                      elapsed_cpu_time_sec};
 }
 
-template <typename T>
-ulong insertion_sort_impl(vector<T> &v, int low, int high)
-{
+//
+// Reusable insertion implementation
+//
 
+template <typename T>
+ulong insertion_sort_impl(vector<T> &v, int start, int end)
+{
     ulong num_comps = 0;
-    for (int i = low; i < high; i++)
+    for (int i = start; i <= end; i++)
     {
         int j = i;
-        while (j > 0 && (num_comps++, v[j - 1] > v[j]))
+        while (j > start && (num_comps++, v[j - 1] > v[j]))
         {
-
-            swapValues(j - 1, j, v);
+            swap_vals(v, j - 1, j);
             j--;
         }
     }
@@ -81,9 +146,9 @@ ulong insertion_sort_impl(vector<T> &v, int low, int high)
 template <typename T>
 SortStats insertion_sort(vector<T> &v)
 {
+
     clock_t start = clock();
     ulong num_comps = insertion_sort_impl(v, 0, v.size());
-
     clock_t end = clock();
     double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
 
@@ -96,7 +161,7 @@ SortStats insertion_sort(vector<T> &v)
 template <typename T>
 SortStats selection_sort(vector<T> &v)
 {
-    ulong num_comps = 0; // <--- num_comps is initialized to 0 here
+    ulong num_comps = 0;
     clock_t start = clock();
 
     for (int i = 0; i < v.size(); i++)
@@ -110,8 +175,7 @@ SortStats selection_sort(vector<T> &v)
                 minIdx = j;
             }
         }
-        // Swap min IDX to its correct position at i
-        swapValues(i, minIdx, v);
+        swap_vals(v, i, minIdx);
     }
 
     clock_t end = clock();
@@ -121,49 +185,50 @@ SortStats selection_sort(vector<T> &v)
                      v.size(),
                      num_comps,
                      elapsed_cpu_time_sec};
-};
+}
+
+// ********************
 
 template <typename T>
 int merge(vector<T> &left, vector<T> &right, vector<T> &v)
 {
     ulong num_comps = 0;
-    int l = 0;
-    int r = 0;
+    int low = 0;
+    int high = 0;
     int idx = 0;
 
-    while (l < left.size() && r < right.size())
+    while (low < left.size() && high < right.size())
     {
         num_comps += 1;
-        if (left[l] <= right[r])
+        if (left[low] <= right[high])
         {
-            v[idx] = left[l];
-            l += 1;
+            v[idx] = left[low];
+            low += 1;
         }
         else
         {
-            v[idx] = right[r];
-            r += 1;
+            v[idx] = right[high];
+            high += 1;
         }
         idx += 1;
     }
 
-    while (l < left.size())
+    while (low < left.size())
     {
-        v[idx] = left[l];
-        l += 1;
+        v[idx] = left[low];
+        low += 1;
         idx += 1;
     }
 
-    while (r < right.size())
+    while (high < right.size())
     {
-        v[idx] = right[r];
-        r += 1;
+        v[idx] = right[high];
+        high += 1;
         idx += 1;
     }
     return num_comps;
 }
 
-// Helper methods for MergeSort
 template <typename T>
 ulong merge_sort_impl(vector<T> &v)
 {
@@ -198,37 +263,47 @@ SortStats merge_sort(vector<T> &v)
                      v.size(),
                      num_comps,
                      elapsed_cpu_time_sec};
-};
+}
 
 template <typename T>
 int partition(vector<T> &v, int low, int high, ulong &num_comps)
 {
-    T p = v[high];
-    int i = low;
+    T pivot = v[high];
+    int i = low - 1;
+
     for (int j = low; j < high; j++)
     {
-        if (v[j] < p)
+        num_comps++;
+        if (v[j] <= pivot)
         {
-            swapValues(i, j, v);
-            num_comps++;
             i++;
+            swap_vals(v, i, j);
         }
     }
-    swapValues(i, high, v);
-    return i;
+
+    swap_vals(v, i + 1, high);
+    return i + 1;
 }
 
+// Implementation for quicksort
+// Needs to return a ulong, so implement
+// recursive function in this helper function
 template <typename T>
-ulong quick_sort_impl(vector<T> &v, int l, int h)
+ulong quick_sort_impl(vector<T> &v, int low, int high, bool is_iquick)
 {
     ulong num_comps = 0;
-    if (l >= h)
+
+    if (is_iquick && high - low < 5)
     {
-        return 0;
+        return num_comps += insertion_sort_impl(v, low, high);
     }
-    int pivot = partition(v, l, h, num_comps);
-    num_comps += quick_sort_impl(v, l, pivot - 1);
-    num_comps += quick_sort_impl(v, pivot + 1, h);
+
+    if (low < high)
+    {
+        int pivot = partition(v, low, high, num_comps);
+        num_comps += quick_sort_impl(v, low, pivot - 1, is_iquick);
+        num_comps += quick_sort_impl(v, pivot + 1, high, is_iquick);
+    }
     return num_comps;
 }
 
@@ -236,7 +311,7 @@ template <typename T>
 SortStats quick_sort(vector<T> &v)
 {
     clock_t start = clock();
-    ulong num_comps = quick_sort_impl(v, 0, v.size() - 1);
+    ulong num_comps = quick_sort_impl(v, 0, v.size() - 1, false);
 
     clock_t end = clock();
     double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
@@ -275,30 +350,11 @@ SortStats shell_sort(vector<T> &v)
 }
 
 template <typename T>
-ulong iquick_sort_impl(vector<T> &v, int low, int high)
-{
-    ulong num_comps = 0;
-    if (high - low < 6)
-    {
-        num_comps += insertion_sort_impl(v, low, high);
-    }
-    else
-    {
-
-        int pivot = partition(v, low, high, num_comps);
-        num_comps += iquick_sort_impl(v, low, pivot - 1);
-        num_comps += iquick_sort_impl(v, pivot + 1, high);
-    }
-
-    return num_comps;
-}
-
-template <typename T>
 SortStats iquick_sort(vector<T> &v)
 {
     clock_t start = clock();
 
-    ulong num_comps = iquick_sort_impl(v, 0, v.size());
+    ulong num_comps = quick_sort_impl(v, 0, v.size() - 1, true);
     clock_t end = clock();
     double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
     return SortStats{"IQuick sort",
@@ -307,30 +363,3 @@ SortStats iquick_sort(vector<T> &v)
                      elapsed_cpu_time_sec};
 };
 // See description in assignment.
-
-//
-//  Generates a random number
-//  bwetween max and min
-//
-int rand_int(int max, int min)
-{
-    return rand() % (max - min + 1) + min;
-}
-
-//
-// Returns a vector of n randomly chosen ints, each <= max and >= min.
-//
-vector<int> rand_vec(int n, int min, int max)
-{
-    vector<int> random_vector;
-    for (int i = 0; i < n; i++)
-    {
-        int next = rand_int(max, min);
-        random_vector.push_back(next);
-    }
-    return random_vector;
-}
-
-//
-// Put the implementations of all the functions listed in a3_base.h here.
-//
