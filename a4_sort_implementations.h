@@ -24,6 +24,14 @@ bool is_sorted(vector<T> &v)
 }
 
 template <typename T>
+void swapValues(int i, int j, vector<T> &v)
+{
+    T tmp = v[i];
+    v[i] = v[j];
+    v[j] = tmp;
+}
+
+template <typename T>
 SortStats bubble_sort(vector<T> &v)
 {
     ulong num_comps = 0; // <--- num_comps is initialized to 0 here
@@ -59,15 +67,14 @@ ulong insertion_sort_impl(vector<T> &v, int low, int high)
     ulong num_comps = 0;
     for (int i = low; i < high; i++)
     {
-        T cur = v[i];
-        int j = i - 1;
-        while (j >= 0 && (v[j] > cur))
+        int j = i;
+        while (j > 0 && (v[j - 1] > v[j]))
         {
-            v[j + 1] = v[j];
+
+            swapValues(j - 1, j, v);
             j--;
             num_comps += 2;
         }
-        v[j + 1] = cur;
     }
     return num_comps;
 }
@@ -104,7 +111,8 @@ SortStats selection_sort(vector<T> &v)
                 num_comps++;
             }
         }
-        swap(v[i], v[minIdx]);
+        // Swap min IDX to its correct position at i
+        swapValues(i, minIdx, v);
     }
 
     clock_t end = clock();
@@ -194,14 +202,6 @@ SortStats merge_sort(vector<T> &v)
 };
 
 template <typename T>
-void swap(int i, int j, vector<T> &v)
-{
-    T tmp = v[i];
-    v[i] = v[j];
-    v[j] = tmp;
-}
-
-template <typename T>
 int partition(vector<T> &v, int low, int high, ulong &num_comps)
 {
     T p = v[high];
@@ -210,12 +210,12 @@ int partition(vector<T> &v, int low, int high, ulong &num_comps)
     {
         if (v[j] < p)
         {
-            swap(v[i], v[j]);
+            swapValues(i, j, v);
             num_comps++;
             i++;
         }
     }
-    swap(v[i], v[high]);
+    swapValues(i, high, v);
     return i;
 }
 
@@ -279,7 +279,7 @@ template <typename T>
 ulong iquick_sort_impl(vector<T> &v, int low, int high)
 {
     ulong num_comps = 0;
-    if (high - low < 100)
+    if (high - low < 6)
     {
         num_comps += insertion_sort_impl(v, low, high);
     }
