@@ -65,7 +65,7 @@ ulong insertion_sort_impl(vector<T> &v, int low, int high)
         {
             v[j + 1] = v[j];
             j--;
-            num_comps++;
+            num_comps += 2;
         }
         v[j + 1] = cur;
     }
@@ -93,23 +93,19 @@ SortStats selection_sort(vector<T> &v)
     ulong num_comps = 0; // <--- num_comps is initialized to 0 here
     clock_t start = clock();
 
-    int minIdx;
     for (int i = 0; i < v.size(); i++)
     {
-        minIdx = i;
+        int minIdx = i;
         for (int j = i + 1; j < v.size(); j++)
         {
-            if (v[j] < v[i])
+            if (v[j] < v[minIdx])
             {
-                num_comps++;
                 minIdx = j;
             }
         }
-        // Swap min IDX to its correct position at i
-        T tmp = v[i];
-        v[i] = v[minIdx];
-        v[minIdx] = tmp;
+        swap(v[i], v[minIdx]);
     }
+
     clock_t end = clock();
     double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
 
@@ -282,7 +278,7 @@ template <typename T>
 ulong iquick_sort_impl(vector<T> &v, int low, int high)
 {
     ulong num_comps = 0;
-    if (high - low < 5)
+    if (high - low < 100)
     {
         num_comps += insertion_sort_impl(v, low, high);
     }
