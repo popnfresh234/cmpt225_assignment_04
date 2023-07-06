@@ -101,6 +101,7 @@ SortStats selection_sort(vector<T> &v)
             if (v[j] < v[minIdx])
             {
                 minIdx = j;
+                num_comps++;
             }
         }
         swap(v[i], v[minIdx]);
