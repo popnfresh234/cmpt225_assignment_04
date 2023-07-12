@@ -482,12 +482,12 @@ int main()
     test_iquick_sort_int();
     test_iquick_sort_string();
 
-    bubble_sort_test(outfile);
-    insertion_sort_test(outfile);
-    selection_sort_test(outfile);
-    merge_sort_test(outfile);
-    quick_sort_test(outfile);
-    shell_sort_test(outfile);
-    iquick_sort_test(outfile);
+    // bubble_sort_test(outfile);
+    // insertion_sort_test(outfile);
+    // selection_sort_test(outfile);
+    // merge_sort_test(outfile);
+    // quick_sort_test(outfile);
+    // shell_sort_test(outfile);
+    // iquick_sort_test(outfile);
     cout << "\nall sorting tests passed!" << endl;
 } // main

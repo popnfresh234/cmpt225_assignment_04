@@ -137,7 +137,7 @@ void insertion_sort_impl(vector<T> &v, int low, int high, ulong &num_comps)
         while (j >= low && (num_comps++, v[j] > key))
         {
             v[j + 1] = v[j];
-            --j;
+            j--;
         }
         v[j + 1] = key;
     }
@@ -349,7 +349,6 @@ void iquick_sort_impl(vector<T> &v, int low, int high, ulong &comparison_count)
     int threshold = 10;
     if (low < high)
     {
-        // If the sub-vector is shorter than the threshold, use Insertion Sort
         if (high - low + 1 <= threshold)
         {
             insertion_sort_impl(v, low, high, comparison_count);
