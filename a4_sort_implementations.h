@@ -128,27 +128,27 @@ SortStats bubble_sort(vector<T> &v)
 //
 
 template <typename T>
-ulong insertion_sort_impl(vector<T> &v, int start, int end)
+void insertion_sort_impl(vector<T> &v, int low, int high, ulong &num_comps)
 {
-    ulong num_comps = 0;
-    for (int i = start; i <= end; i++)
+    for (int i = low + 1; i <= high; ++i)
     {
-        int j = i;
-        while (j > start && (num_comps++, v[j - 1] > v[j]))
+        T key = v[i];
+        int j = i - 1;
+        while (j >= low && (num_comps++, v[j] > key))
         {
-            swap_vals(v, j - 1, j);
-            j--;
+            v[j + 1] = v[j];
+            --j;
         }
+        v[j + 1] = key;
     }
-    return num_comps;
-}
+};
 
 template <typename T>
 SortStats insertion_sort(vector<T> &v)
 {
-
     clock_t start = clock();
-    ulong num_comps = insertion_sort_impl(v, 0, v.size());
+    ulong num_comps = 0;
+    insertion_sort_impl(v, 0, v.size() - 1, num_comps);
     clock_t end = clock();
     double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
 
@@ -289,20 +289,14 @@ int partition(vector<T> &v, int low, int high, ulong &num_comps)
 // Needs to return a ulong, so implement
 // recursive function in this helper function
 template <typename T>
-ulong quick_sort_impl(vector<T> &v, int low, int high, bool is_iquick)
+ulong quick_sort_impl(vector<T> &v, int low, int high)
 {
     ulong num_comps = 0;
-
-    if (is_iquick && high - low < 5)
-    {
-        return num_comps += insertion_sort_impl(v, low, high);
-    }
-
     if (low < high)
     {
         int pivot = partition(v, low, high, num_comps);
-        num_comps += quick_sort_impl(v, low, pivot - 1, is_iquick);
-        num_comps += quick_sort_impl(v, pivot + 1, high, is_iquick);
+        num_comps += quick_sort_impl(v, low, pivot - 1);
+        num_comps += quick_sort_impl(v, pivot + 1, high);
     }
     return num_comps;
 }
@@ -311,7 +305,7 @@ template <typename T>
 SortStats quick_sort(vector<T> &v)
 {
     clock_t start = clock();
-    ulong num_comps = quick_sort_impl(v, 0, v.size() - 1, false);
+    ulong num_comps = quick_sort_impl(v, 0, v.size() - 1);
 
     clock_t end = clock();
     double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
@@ -350,11 +344,31 @@ SortStats shell_sort(vector<T> &v)
 }
 
 template <typename T>
+void iquick_sort_impl(vector<T> &v, int low, int high, ulong &comparison_count)
+{
+    int threshold = 10;
+    if (low < high)
+    {
+        // If the sub-vector is shorter than the threshold, use Insertion Sort
+        if (high - low + 1 <= threshold)
+        {
+            insertion_sort_impl(v, low, high, comparison_count);
+        }
+        else
+        {
+            int pivot = partition(v, low, high, comparison_count);
+            iquick_sort_impl(v, low, pivot - 1, comparison_count);
+            iquick_sort_impl(v, pivot + 1, high, comparison_count);
+        }
+    }
+}
+
+template <typename T>
 SortStats iquick_sort(vector<T> &v)
 {
     clock_t start = clock();
-
-    ulong num_comps = quick_sort_impl(v, 0, v.size() - 1, true);
+    ulong num_comps = 0;
+    iquick_sort_impl(v, 0, v.size() - 1, num_comps);
     clock_t end = clock();
     double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
     return SortStats{"IQuick sort",
