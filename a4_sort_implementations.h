@@ -346,7 +346,7 @@ SortStats shell_sort(vector<T> &v)
 template <typename T>
 void iquick_sort_impl(vector<T> &v, int low, int high, ulong &comparison_count)
 {
-    int threshold = 10;
+    int threshold = 20;
     if (low < high)
     {
         if (high - low + 1 <= threshold)
