@@ -80,6 +80,7 @@ vector<int> make_rand_vector(int size, int min, int max)
 //
 // Helper method to check if a vector is sorted
 // in non-decreasing order
+//
 template <typename T>
 bool is_sorted(vector<T> &v)
 {
@@ -208,32 +209,32 @@ int merge(vector<T> &left, vector<T> &right, vector<T> &v)
 
     while (low < left.size() && high < right.size())
     {
-        num_comps += 1;
+        num_comps++;
         if (left[low] <= right[high])
         {
             v[idx] = left[low];
-            low += 1;
+            low++;
         }
         else
         {
             v[idx] = right[high];
-            high += 1;
+            high++;
         }
-        idx += 1;
+        idx++;
     }
 
     while (low < left.size())
     {
         v[idx] = left[low];
-        low += 1;
-        idx += 1;
+        low++;
+        idx++;
     }
 
     while (high < right.size())
     {
         v[idx] = right[high];
-        high += 1;
-        idx += 1;
+        high++;
+        idx++;
     }
     return num_comps;
 }

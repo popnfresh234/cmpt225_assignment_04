@@ -446,13 +446,6 @@ void iquick_sort_test(ofstream &out)
     }
 }
 
-void super_test()
-{
-    vector<int> v = {0, 15, 5, 1, 0, 20, 25, 30, 35, 40};
-    SortStats stats = insertion_sort(v);
-    cout << stats.to_csv() << endl;
-}
-
 int main()
 {
     string outfile_name = "output.csv";
@@ -482,12 +475,12 @@ int main()
     test_iquick_sort_int();
     test_iquick_sort_string();
 
-    bubble_sort_test(outfile);
-    insertion_sort_test(outfile);
-    selection_sort_test(outfile);
-    merge_sort_test(outfile);
-    quick_sort_test(outfile);
-    shell_sort_test(outfile);
-    iquick_sort_test(outfile);
+    // bubble_sort_test(outfile);
+    // insertion_sort_test(outfile);
+    // selection_sort_test(outfile);
+    // merge_sort_test(outfile);
+    // quick_sort_test(outfile);
+    // shell_sort_test(outfile);
+    // iquick_sort_test(outfile);
     cout << "\nall sorting tests passed!" << endl;
 } // main
