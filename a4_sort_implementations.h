@@ -5,9 +5,9 @@
 // Student Info
 // ------------
 //
-// Name : <put your full name here!>
-// St.# : <put your full SFU student number here>
-// Email: <put your SFU email address here>
+// Name : Alexander Holliday
+// St.# : 200126556
+// Email: ajhollid@sfu.ca
 //
 //
 // Statement of Originality
@@ -55,7 +55,6 @@ int rand_int(int min, int max)
 vector<int> rand_vec(int n, int min, int max)
 {
     srand(time(NULL));
-
     vector<int> random_vector;
     for (int i = 0; i < n; i++)
     {
@@ -94,6 +93,10 @@ bool is_sorted(vector<T> &v)
     return true;
 }
 
+// **********************
+// Bubble sort
+// **********************
+
 template <typename T>
 SortStats bubble_sort(vector<T> &v)
 {
@@ -123,9 +126,9 @@ SortStats bubble_sort(vector<T> &v)
                      elapsed_cpu_time_sec};
 }
 
-//
-// Reusable insertion implementation
-//
+// **********************
+// Insertion Sort
+// **********************
 
 template <typename T>
 void insertion_sort_impl(vector<T> &v, int low, int high, ulong &num_comps)
@@ -158,6 +161,10 @@ SortStats insertion_sort(vector<T> &v)
                      elapsed_cpu_time_sec};
 };
 
+// **********************
+// Selection Sort
+// **********************
+
 template <typename T>
 SortStats selection_sort(vector<T> &v)
 {
@@ -187,7 +194,9 @@ SortStats selection_sort(vector<T> &v)
                      elapsed_cpu_time_sec};
 }
 
-// ********************
+// **********************
+// Merge Sort
+// **********************
 
 template <typename T>
 int merge(vector<T> &left, vector<T> &right, vector<T> &v)
@@ -239,10 +248,6 @@ ulong merge_sort_impl(vector<T> &v)
         return num_comps;
     }
 
-    //
-    // Find the mid point of the vector
-    // Create two new vectors to hold each half
-    //
     int mid = v.size() / 2;
     vector<T> left(v.begin(), v.begin() + mid);
     vector<T> right(v.begin() + mid, v.end());
@@ -265,6 +270,10 @@ SortStats merge_sort(vector<T> &v)
                      elapsed_cpu_time_sec};
 }
 
+// **********************
+// Quick sort
+// **********************
+
 template <typename T>
 int partition(vector<T> &v, int low, int high, ulong &num_comps)
 {
@@ -285,28 +294,23 @@ int partition(vector<T> &v, int low, int high, ulong &num_comps)
     return i + 1;
 }
 
-// Implementation for quicksort
-// Needs to return a ulong, so implement
-// recursive function in this helper function
 template <typename T>
-ulong quick_sort_impl(vector<T> &v, int low, int high)
+void quick_sort_impl(vector<T> &v, int low, int high, ulong &num_comps)
 {
-    ulong num_comps = 0;
     if (low < high)
     {
         int pivot = partition(v, low, high, num_comps);
-        num_comps += quick_sort_impl(v, low, pivot - 1);
-        num_comps += quick_sort_impl(v, pivot + 1, high);
+        quick_sort_impl(v, low, pivot - 1, num_comps);
+        quick_sort_impl(v, pivot + 1, high, num_comps);
     }
-    return num_comps;
 }
 
 template <typename T>
 SortStats quick_sort(vector<T> &v)
 {
     clock_t start = clock();
-    ulong num_comps = quick_sort_impl(v, 0, v.size() - 1);
-
+    ulong num_comps = 0;
+    quick_sort_impl(v, 0, v.size() - 1, num_comps);
     clock_t end = clock();
     double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
     return SortStats{"Quick sort",
@@ -314,6 +318,11 @@ SortStats quick_sort(vector<T> &v)
                      num_comps,
                      elapsed_cpu_time_sec};
 }
+
+// **********************
+// Shell sort
+// Implementation from https://www.programiz.com/dsa/shell-sort
+// **********************
 
 template <typename T>
 SortStats shell_sort(vector<T> &v)
@@ -342,6 +351,10 @@ SortStats shell_sort(vector<T> &v)
                      num_comps,
                      elapsed_cpu_time_sec};
 }
+
+// **********************
+// IQuick sort
+// **********************
 
 template <typename T>
 void iquick_sort_impl(vector<T> &v, int low, int high, ulong &comparison_count)
@@ -375,4 +388,3 @@ SortStats iquick_sort(vector<T> &v)
                      num_comps,
                      elapsed_cpu_time_sec};
 };
-// See description in assignment.
